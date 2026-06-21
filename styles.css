@@ -169,15 +169,16 @@ table {
 
 .metrics {
   position: relative;
-  width: min(100% - 144px, 760px);
+  width: min(100% - 144px, 1180px);
   margin: -10svh auto 0;
   padding-bottom: 72px;
 }
 
 .metrics__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 178px);
   gap: 12px;
+  justify-content: start;
 }
 
 .metric-card {
