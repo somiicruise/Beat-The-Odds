@@ -244,3 +244,122 @@ table {
   font-weight: 650;
   line-height: 1.12;
 }
+
+.workflow {
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.workflow__inner {
+  display: grid;
+  width: min(100% - 144px, 1180px);
+  height: 100svh;
+  margin: 0 auto;
+  align-items: center;
+  overflow: hidden;
+}
+
+.workflow__timeline {
+  position: relative;
+  display: grid;
+  width: max-content;
+  min-width: 2140px;
+  min-height: 520px;
+  grid-template-columns: repeat(6, 356px);
+  transform: translateX(var(--workflow-shift, 0px));
+  will-change: transform;
+}
+
+.workflow__timeline::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--border);
+  content: "";
+}
+
+.workflow-step {
+  position: relative;
+  display: grid;
+  min-width: 0;
+}
+
+.workflow-step::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1px;
+  height: 120px;
+  background: linear-gradient(var(--border) 50%, transparent 0);
+  background-size: 1px 8px;
+  content: "";
+  opacity: 0.8;
+  transform: translateY(-50%);
+}
+
+.workflow-step::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--text);
+  border-radius: 999px;
+  background: var(--bg);
+  content: "";
+  transform: translate(-50%, -50%);
+  transition: background 260ms ease, transform 260ms ease;
+}
+
+.workflow-step.is-dot-active::after {
+  background: var(--text);
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.workflow-step__content {
+  width: 176px;
+  opacity: 0.22;
+  transform: translateY(12px);
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+.workflow-step.is-text-visible .workflow-step__content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.workflow-step--top .workflow-step__content {
+  align-self: start;
+}
+
+.workflow-step--bottom .workflow-step__content {
+  align-self: end;
+}
+
+.workflow-step__content span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--text-subtle);
+  font-size: 1rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.workflow-step__content h3 {
+  color: var(--text);
+  font-size: 1.35rem;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.workflow-step__content p {
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.18;
+}
