@@ -385,19 +385,25 @@ table {
 }
 
 .audience {
-  padding: 128px 0 150px;
+  padding: 148px 0 160px;
   background: var(--bg);
 }
 
 .audience__inner {
   display: grid;
   width: min(100% - 144px, 1180px);
+  min-height: 74svh;
   margin: 0 auto;
-  gap: 48px;
+  align-content: center;
+}
+
+.audience__content {
+  display: grid;
+  gap: 76px;
 }
 
 .audience__title {
-  max-width: 980px;
+  max-width: 1040px;
   color: var(--text);
   font-size: 5.6rem;
   font-weight: 850;
@@ -405,12 +411,28 @@ table {
   letter-spacing: 0;
 }
 
+.audience__aside {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 48px 96px;
+  align-items: end;
+}
+
 .audience__copy {
-  max-width: 460px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
+  max-width: 420px;
   color: var(--text-muted);
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.12;
+}
+
+.audience__mail {
+  width: fit-content;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--text);
+  color: var(--text);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  justify-self: end;
 }
