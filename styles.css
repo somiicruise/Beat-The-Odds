@@ -27,12 +27,15 @@
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
   background: var(--bg);
   color: var(--text);
   font-family:
@@ -247,15 +250,33 @@ table {
 }
 
 .workflow {
-  min-height: 100svh;
+  position: relative;
+  min-height: calc(100svh + var(--workflow-distance, 1200px));
+  overflow: hidden;
 }
 
 .workflow__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: grid;
-  width: min(100% - 144px, 1180px);
+  width: 100%;
   height: 100svh;
   margin: 0 auto;
   align-items: center;
+  overflow: hidden;
+  padding: 0 max(72px, calc((100vw - 1180px) / 2));
+}
+
+.workflow.is-fixed .workflow__inner {
+  position: fixed;
+  z-index: 1;
+}
+
+.workflow.is-ended .workflow__inner {
+  position: absolute;
+  top: auto;
+  bottom: 0;
 }
 
 .workflow__timeline {
@@ -265,7 +286,7 @@ table {
   min-width: 2140px;
   min-height: 520px;
   grid-template-columns: repeat(6, 356px);
-  transform: translateX(var(--workflow-shift, 0px));
+  transform: translate3d(var(--workflow-shift, 0px), 0, 0);
   will-change: transform;
 }
 
@@ -361,4 +382,35 @@ table {
   font-size: 0.92rem;
   font-weight: 650;
   line-height: 1.18;
+}
+
+.audience {
+  padding: 128px 0 150px;
+  background: var(--bg);
+}
+
+.audience__inner {
+  display: grid;
+  width: min(100% - 144px, 1180px);
+  margin: 0 auto;
+  gap: 48px;
+}
+
+.audience__title {
+  max-width: 980px;
+  color: var(--text);
+  font-size: 5.6rem;
+  font-weight: 850;
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+.audience__copy {
+  max-width: 460px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.12;
 }
