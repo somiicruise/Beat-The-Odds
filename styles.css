@@ -49,6 +49,7 @@ body {
 
 main {
   display: block;
+  overflow: hidden;
 }
 
 h1,
@@ -247,7 +248,6 @@ table {
 
 .workflow {
   min-height: 100svh;
-  overflow: hidden;
 }
 
 .workflow__inner {
@@ -256,7 +256,6 @@ table {
   height: 100svh;
   margin: 0 auto;
   align-items: center;
-  overflow: hidden;
 }
 
 .workflow__timeline {
