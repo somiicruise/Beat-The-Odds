@@ -2,6 +2,8 @@ const workflow = document.querySelector(".workflow");
 const workflowInner = document.querySelector(".workflow__inner");
 const workflowTimeline = document.querySelector(".workflow__timeline");
 const workflowSteps = Array.from(document.querySelectorAll(".workflow-step"));
+const siteHeader = document.querySelector(".site-header");
+const headerSections = [document.querySelector(".intro"), document.querySelector(".audience")];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -44,19 +46,38 @@ const updateWorkflow = () => {
   updateWorkflowSteps(progress);
 };
 
+const updateHeader = () => {
+  if (!siteHeader) return;
+
+  const viewportCenter = window.innerHeight / 2;
+  const isVisible = headerSections.some((section) => {
+    if (!section) return false;
+
+    const rect = section.getBoundingClientRect();
+    return rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+  });
+
+  siteHeader.classList.toggle("is-visible", isVisible);
+};
+
 let workflowTicking = false;
 
-const requestWorkflowUpdate = () => {
+const updatePage = () => {
+  updateWorkflow();
+  updateHeader();
+};
+
+const requestPageUpdate = () => {
   if (workflowTicking) return;
 
   workflowTicking = true;
   window.requestAnimationFrame(() => {
-    updateWorkflow();
+    updatePage();
     workflowTicking = false;
   });
 };
 
-updateWorkflow();
-window.addEventListener("load", updateWorkflow);
-window.addEventListener("scroll", requestWorkflowUpdate, { passive: true });
-window.addEventListener("resize", requestWorkflowUpdate);
+updatePage();
+window.addEventListener("load", updatePage);
+window.addEventListener("scroll", requestPageUpdate, { passive: true });
+window.addEventListener("resize", requestPageUpdate);

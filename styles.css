@@ -134,6 +134,31 @@ table {
   outline-offset: 3px;
 }
 
+.site-header {
+  position: fixed;
+  top: 72px;
+  right: 72px;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.site-header.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.site-header__brand {
+  color: var(--text);
+  font-size: 1.35rem;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
 /** 
 
 .intro{
