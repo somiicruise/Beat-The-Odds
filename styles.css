@@ -1,21 +1,24 @@
 :root {
-  --bg: #FFFFFF;
-  --sidebar: #F7F7F5;
-  --surface: #EFEFED;
-  --surface-hover: #E5E5E2;
-  --surface-active: #D8D8D4;
+  --bg: #111010;
+  --page-bg:
+    radial-gradient(circle at top right, #6B2A28 0%, transparent 38%),
+    linear-gradient(90deg, #111010 0%, #181716 45%, #2A1717 100%);
+  --sidebar: #181716;
+  --surface: #201F1D;
+  --surface-hover: #282624;
+  --surface-active: #302C2A;
 
-  --border: #D0D0CC;
+  --border: #3A3633;
 
-  --text: #0D0D0D;
-  --text-muted: #4D4D4A;
-  --text-subtle: #8A8A86;
+  --text: #E8E5E1;
+  --text-muted: #A09A94;
+  --text-subtle: #706B66;
 
-  --accent: #0D0D0D;
-  --accent-hover: #2A2A28;
-  --accent-soft: #F2F2F0;
+  --accent: #6B2A28;
+  --accent-hover: #7C3431;
+  --accent-soft: #2A1717;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 *,
@@ -36,7 +39,8 @@ body {
   margin: 0;
   overflow-x: hidden;
   overscroll-behavior-x: none;
-  background: var(--bg);
+  background: var(--page-bg);
+  background-attachment: fixed;
   color: var(--text);
   font-family:
     Inter,
@@ -126,7 +130,7 @@ table {
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--text);
 }
 
 :focus-visible {
@@ -411,7 +415,7 @@ table {
 
 .audience {
   padding: 148px 0 160px;
-  background: var(--bg);
+  background: transparent;
 }
 
 .audience__inner {
