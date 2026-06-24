@@ -247,10 +247,26 @@ table {
 }
 
 .problem {
+  position: relative;
   padding: 96px 0 120px;
 }
 
+.problem::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -24vw;
+  width: 64vw;
+  max-width: 820px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(107 42 40 / 0.42) 0%, rgb(107 42 40 / 0.18) 36%, transparent 72%);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
 .problem__inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   width: min(100% - 144px, 1180px);
   margin: 0 auto;
