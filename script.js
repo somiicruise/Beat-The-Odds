@@ -4,8 +4,6 @@ const workflowTimeline = document.querySelector(".workflow__timeline");
 const workflowSteps = Array.from(document.querySelectorAll(".workflow-step"));
 const siteHeader = document.querySelector(".site-header");
 const headerSections = [document.querySelector(".intro"), document.querySelector(".audience")];
-const root = document.documentElement;
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -62,40 +60,6 @@ const updateHeader = () => {
   siteHeader.classList.toggle("is-visible", isVisible);
 };
 
-let lavaX = 82;
-let lavaY = 16;
-let targetLavaX = lavaX;
-let targetLavaY = lavaY;
-
-const updateLavaTarget = (event) => {
-  if (reduceMotion) return;
-
-  targetLavaX = clamp((event.clientX / window.innerWidth) * 100, 0, 100);
-  targetLavaY = clamp((event.clientY / window.innerHeight) * 100, 0, 100);
-};
-
-const resetLavaTarget = () => {
-  targetLavaX = 82;
-  targetLavaY = 16;
-};
-
-const animateLava = () => {
-  if (!reduceMotion) {
-    lavaX += (targetLavaX - lavaX) * 0.055;
-    lavaY += (targetLavaY - lavaY) * 0.055;
-
-    const heat = 0.52 + (lavaY / 100) * 0.22;
-    const leftHeat = 0.28 + (1 - lavaX / 100) * 0.12;
-
-    root.style.setProperty("--lava-x", `${lavaX.toFixed(2)}%`);
-    root.style.setProperty("--lava-y", `${lavaY.toFixed(2)}%`);
-    root.style.setProperty("--lava-heat", heat.toFixed(3));
-    root.style.setProperty("--lava-left-heat", leftHeat.toFixed(3));
-  }
-
-  window.requestAnimationFrame(animateLava);
-};
-
 let workflowTicking = false;
 
 const updatePage = () => {
@@ -114,9 +78,6 @@ const requestPageUpdate = () => {
 };
 
 updatePage();
-window.requestAnimationFrame(animateLava);
-window.addEventListener("pointermove", updateLavaTarget, { passive: true });
-window.addEventListener("pointerleave", resetLavaTarget);
 window.addEventListener("load", updatePage);
 window.addEventListener("scroll", requestPageUpdate, { passive: true });
 window.addEventListener("resize", requestPageUpdate);
