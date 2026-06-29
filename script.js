@@ -26,8 +26,8 @@ const getWorkflowDistance = () => {
 const updateWorkflowSteps = (progress) => {
   workflowSteps.forEach((step, index) => {
     const stepProgress = index / Math.max(workflowSteps.length - 1, 1);
-    const dotProgress = Math.max(stepProgress - 0.035, 0);
-    const textProgress = Math.min(stepProgress + 0.045, 1);
+    const dotProgress = Math.max(stepProgress - 0.16, 0);
+    const textProgress = Math.max(stepProgress - 0.12, 0);
 
     step.classList.toggle("is-dot-active", index === 0 || progress >= dotProgress);
     step.classList.toggle("is-text-visible", index === 0 || progress >= textProgress);
