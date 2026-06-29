@@ -4,6 +4,10 @@ const workflowTimeline = document.querySelector(".workflow__timeline");
 const workflowSteps = Array.from(document.querySelectorAll(".workflow-step"));
 const siteHeader = document.querySelector(".site-header");
 const headerSections = [document.querySelector(".intro"), document.querySelector(".audience")];
+const revealSections = Array.from(document.querySelectorAll(".reveal"));
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+document.documentElement.classList.add("has-reveal");
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -60,6 +64,36 @@ const updateHeader = () => {
   siteHeader.classList.toggle("is-visible", isVisible);
 };
 
+const showRevealSection = (section) => {
+  section.classList.add("is-visible");
+};
+
+const setupReveal = () => {
+  if (!revealSections.length) return;
+
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+    revealSections.forEach(showRevealSection);
+    return;
+  }
+
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        showRevealSection(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "0px 0px -16% 0px",
+      threshold: 0.12,
+    },
+  );
+
+  revealSections.forEach((section) => revealObserver.observe(section));
+};
+
 let workflowTicking = false;
 
 const updatePage = () => {
@@ -77,6 +111,7 @@ const requestPageUpdate = () => {
   });
 };
 
+setupReveal();
 updatePage();
 window.addEventListener("load", updatePage);
 window.addEventListener("scroll", requestPageUpdate, { passive: true });

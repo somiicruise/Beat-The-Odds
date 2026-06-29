@@ -170,6 +170,64 @@ table {
   outline-offset: 3px;
 }
 
+.has-reveal .metrics .metric-card,
+.has-reveal .problem__title,
+.has-reveal .problem__copy,
+.has-reveal .audience__title,
+.has-reveal .audience__aside {
+  transition:
+    opacity 560ms ease,
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.has-reveal .workflow__timeline {
+  transition: opacity 640ms ease;
+}
+
+.has-reveal .metrics.reveal:not(.is-visible) .metric-card,
+.has-reveal .problem.reveal:not(.is-visible) .problem__title,
+.has-reveal .problem.reveal:not(.is-visible) .problem__copy,
+.has-reveal .audience.reveal:not(.is-visible) .audience__title,
+.has-reveal .audience.reveal:not(.is-visible) .audience__aside {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.has-reveal .workflow.reveal:not(.is-visible) .workflow__timeline {
+  opacity: 0;
+}
+
+.has-reveal .metrics.is-visible .metric-card:nth-child(2),
+.has-reveal .problem.is-visible .problem__copy,
+.has-reveal .audience.is-visible .audience__aside {
+  transition-delay: 80ms;
+}
+
+.has-reveal .metrics.is-visible .metric-card:nth-child(3) {
+  transition-delay: 160ms;
+}
+
+.has-reveal .metrics.is-visible .metric-card:nth-child(4) {
+  transition-delay: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .has-reveal .metrics .metric-card,
+  .has-reveal .problem__title,
+  .has-reveal .problem__copy,
+  .has-reveal .workflow__timeline,
+  .has-reveal .audience__title,
+  .has-reveal .audience__aside {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .site-header {
   position: fixed;
   top: 72px;
