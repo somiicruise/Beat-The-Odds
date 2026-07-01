@@ -562,14 +562,50 @@ table {
 }
 
 .audience__mail {
+  position: relative;
+  display: inline-flex;
   width: fit-content;
+  gap: 12px;
+  align-items: center;
   padding-bottom: 9px;
-  border-bottom: 1px solid var(--text);
   color: var(--text);
   font-size: 2rem;
   font-weight: 800;
   line-height: 1;
   justify-self: end;
+  white-space: nowrap;
+}
+
+.audience__mail::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  height: 1px;
+  background: var(--text);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.audience__mail::after {
+  content: "\2197";
+  font-size: 0.72em;
+  line-height: 1;
+  transform: translateY(-0.08em);
+  transition: transform 420ms ease;
+}
+
+.audience__mail:hover::before,
+.audience__mail:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.audience__mail:hover::after,
+.audience__mail:focus-visible::after {
+  transform: translate(3px, -3px);
 }
 
 @media (max-width: 1024px) {
