@@ -582,7 +582,7 @@ table {
   bottom: 0;
   left: 0;
   display: block;
-  height: 1px;
+  height: 2px;
   background: var(--text);
   content: "";
   transform: scaleX(0);
@@ -594,18 +594,12 @@ table {
   content: "\2197";
   font-size: 0.72em;
   line-height: 1;
-  transform: translateY(-0.08em);
-  transition: transform 420ms ease;
+  transform: translateY(0.06em);
 }
 
 .audience__mail:hover::before,
 .audience__mail:focus-visible::before {
   transform: scaleX(1);
-}
-
-.audience__mail:hover::after,
-.audience__mail:focus-visible::after {
-  transform: translate(3px, -3px);
 }
 
 @media (max-width: 1024px) {
