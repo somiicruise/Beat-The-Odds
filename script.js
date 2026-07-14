@@ -3,7 +3,9 @@ const workflowInner = document.querySelector(".workflow__inner");
 const workflowTimeline = document.querySelector(".workflow__timeline");
 const workflowSteps = Array.from(document.querySelectorAll(".workflow-step"));
 const siteHeader = document.querySelector(".site-header");
-const headerSections = [document.querySelector(".intro"), document.querySelector(".audience")];
+const showcaseInner = document.querySelector(".showcase__inner");
+const showcaseTrack = document.querySelector(".showcase__track");
+const introSection = document.querySelector(".intro");
 const revealSections = Array.from(document.querySelectorAll(".reveal"));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -12,6 +14,93 @@ document.documentElement.classList.add("has-reveal");
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const getNumber = (value) => Number.parseFloat(value) || 0;
+
+let showcasePosition = 0;
+let showcaseLoopWidth = 0;
+let isShowcaseDragging = false;
+let showcaseLastX = 0;
+
+const setShowcasePosition = () => {
+  if (!showcaseTrack) return;
+
+  showcaseTrack.style.setProperty("--showcase-shift", `${showcasePosition}px`);
+};
+
+const measureShowcaseLoop = () => {
+  if (!showcaseTrack) return;
+
+  const firstItem = showcaseTrack.firstElementChild;
+  const firstClone = showcaseTrack.querySelector("[data-showcase-clone='true']");
+
+  showcaseLoopWidth = firstItem && firstClone ? firstClone.offsetLeft - firstItem.offsetLeft : 0;
+};
+
+const normalizeShowcasePosition = () => {
+  if (!showcaseLoopWidth) return;
+
+  const wrapped = ((showcasePosition % showcaseLoopWidth) + showcaseLoopWidth) % showcaseLoopWidth;
+  showcasePosition = wrapped === 0 ? 0 : wrapped - showcaseLoopWidth;
+};
+
+const moveShowcase = (deltaX) => {
+  showcasePosition += deltaX;
+  normalizeShowcasePosition();
+  setShowcasePosition();
+};
+
+const setupShowcaseSlider = () => {
+  if (!showcaseInner || !showcaseTrack || showcaseTrack.dataset.loopReady) return;
+
+  const originalItems = Array.from(showcaseTrack.children);
+
+  originalItems.forEach((item) => {
+    const clone = item.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    clone.dataset.showcaseClone = "true";
+    showcaseTrack.append(clone);
+  });
+
+  showcaseTrack.dataset.loopReady = "true";
+  measureShowcaseLoop();
+  normalizeShowcasePosition();
+  setShowcasePosition();
+
+  showcaseInner.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+
+    isShowcaseDragging = true;
+    showcaseLastX = event.clientX;
+    showcaseInner.classList.add("is-dragging");
+    showcaseInner.setPointerCapture(event.pointerId);
+  });
+
+  showcaseInner.addEventListener("pointermove", (event) => {
+    if (!isShowcaseDragging) return;
+
+    const deltaX = event.clientX - showcaseLastX;
+    showcaseLastX = event.clientX;
+
+    moveShowcase(deltaX);
+  });
+
+  const endDrag = (event) => {
+    if (!isShowcaseDragging) return;
+
+    isShowcaseDragging = false;
+    showcaseInner.classList.remove("is-dragging");
+
+    if (showcaseInner.hasPointerCapture(event.pointerId)) {
+      showcaseInner.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  showcaseInner.addEventListener("pointerup", endDrag);
+  showcaseInner.addEventListener("pointercancel", endDrag);
+  showcaseInner.addEventListener("lostpointercapture", () => {
+    isShowcaseDragging = false;
+    showcaseInner.classList.remove("is-dragging");
+  });
+};
 
 const getWorkflowDistance = () => {
   if (!workflowInner || !workflowTimeline) return 0;
@@ -54,14 +143,10 @@ const updateHeader = () => {
   if (!siteHeader) return;
 
   const viewportCenter = window.innerHeight / 2;
-  const isVisible = headerSections.some((section) => {
-    if (!section) return false;
+  const introRect = introSection?.getBoundingClientRect();
+  const isIntroVisible = introRect ? introRect.top <= viewportCenter && introRect.bottom >= viewportCenter : false;
 
-    const rect = section.getBoundingClientRect();
-    return rect.top <= viewportCenter && rect.bottom >= viewportCenter;
-  });
-
-  siteHeader.classList.toggle("is-visible", isVisible);
+  siteHeader.classList.toggle("is-visible", isIntroVisible);
 };
 
 const showRevealSection = (section) => {
@@ -99,6 +184,9 @@ let workflowTicking = false;
 const updatePage = () => {
   updateWorkflow();
   updateHeader();
+  measureShowcaseLoop();
+  normalizeShowcasePosition();
+  setShowcasePosition();
 };
 
 const requestPageUpdate = () => {
@@ -112,6 +200,7 @@ const requestPageUpdate = () => {
 };
 
 setupReveal();
+setupShowcaseSlider();
 updatePage();
 window.addEventListener("load", updatePage);
 window.addEventListener("scroll", requestPageUpdate, { passive: true });
