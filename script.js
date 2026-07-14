@@ -19,6 +19,8 @@ let showcasePosition = 0;
 let showcaseLoopWidth = 0;
 let isShowcaseDragging = false;
 let showcaseLastX = 0;
+let showcaseDragDelta = 0;
+let showcaseDragTicking = false;
 
 const setShowcasePosition = () => {
   if (!showcaseTrack) return;
@@ -46,6 +48,19 @@ const moveShowcase = (deltaX) => {
   showcasePosition += deltaX;
   normalizeShowcasePosition();
   setShowcasePosition();
+};
+
+const requestShowcaseMove = (deltaX) => {
+  showcaseDragDelta += deltaX;
+
+  if (showcaseDragTicking) return;
+
+  showcaseDragTicking = true;
+  window.requestAnimationFrame(() => {
+    moveShowcase(showcaseDragDelta);
+    showcaseDragDelta = 0;
+    showcaseDragTicking = false;
+  });
 };
 
 const setupShowcaseSlider = () => {
@@ -80,7 +95,7 @@ const setupShowcaseSlider = () => {
     const deltaX = event.clientX - showcaseLastX;
     showcaseLastX = event.clientX;
 
-    moveShowcase(deltaX);
+    requestShowcaseMove(deltaX);
   });
 
   const endDrag = (event) => {

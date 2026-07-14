@@ -1012,21 +1012,22 @@ table {
   }
 
   .showcase__track {
-    gap: 24px;
+    gap: 16px;
   }
 
   .showcase-item {
-    flex-basis: calc((100vw - 40px) * 0.86);
+    flex-basis: calc((100vw - 40px) * 0.74);
     gap: 14px;
   }
 
   .showcase-item__media {
-    min-height: 220px;
+    min-height: 190px;
     border-radius: 14px;
   }
 
   .showcase-item p {
-    font-size: 0.96rem;
+    max-width: 230px;
+    font-size: 0.9rem;
   }
 
   .site-footer {
