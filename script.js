@@ -3,7 +3,6 @@ const workflowInner = document.querySelector(".workflow__inner");
 const workflowTimeline = document.querySelector(".workflow__timeline");
 const workflowSteps = Array.from(document.querySelectorAll(".workflow-step"));
 const siteHeader = document.querySelector(".site-header");
-const showcaseSection = document.querySelector(".showcase");
 const showcaseInner = document.querySelector(".showcase__inner");
 const showcaseTrack = document.querySelector(".showcase__track");
 const introSection = document.querySelector(".intro");
@@ -80,10 +79,6 @@ const setupShowcaseSlider = () => {
 
     const deltaX = event.clientX - showcaseLastX;
     showcaseLastX = event.clientX;
-
-    if (Math.abs(deltaX) > 0) {
-      showcaseSection?.classList.add("has-dragged");
-    }
 
     moveShowcase(deltaX);
   });
